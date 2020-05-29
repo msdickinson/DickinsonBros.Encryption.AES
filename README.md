@@ -8,7 +8,6 @@ Encrypt and decrypt strings
 
 Features
       * Advanced Encryption Standard based encryption
-      * Configure certificate location
       * Built with Generics allowing multiple configurations and instances concurrently.
 
 <a href="https://dev.azure.com/marksamdickinson/DickinsonBros/_build?definitionScope=%5CDickinsonBros.Encryption.AES">Builds</a>
@@ -68,8 +67,8 @@ var runnerAESEncryptionServiceOptions = new AESEncryptionServiceOptions<RunnerAE
     InitializationVector = "BqjK8H2y67JBQ/4Zj/7HnQ==",
     Key = "n1kNM3rmrsmacldt1XgIA3i2WlXTvR5aG3qK8Oq6ibA="
 };
-var options = Options.Create(certificateEncryptionOptions);
-var certificateEncryptionService = new CertificateEncryptionService<RunnerCertificateEncryptionServiceOptions>(options);
+var options = Options.Create(runnerAESEncryptionServiceOptions);
+var aesEncryptionService = new AESEncryptionService<RunnerAESEncryptionServiceOptions>(options);
 
 ```
 
@@ -98,7 +97,7 @@ var builder = new ConfigurationBuilder()
 
 var configuration = builder.Build();
 serviceCollection.AddOptions();
-services.Configure<AESEncryptionServiceOptions<RunnerCertificateEncryptionServiceOptions>>(_configuration.GetSection(nameof(RunnerAESEncryptionServiceOptions)));
+services.Configure<AESEncryptionServiceOptions<RunnerAESEncryptionServiceOptions>>(_configuration.GetSection(nameof(RunnerAESEncryptionServiceOptions)));
 
 //Add Service
 services.AddAESEncryptionService<RunnerAESEncryptionServiceOptions>();
