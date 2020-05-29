@@ -7,8 +7,8 @@
 Encrypt and decrypt strings
 
 Features
-      * Advanced Encryption Standard based encryption
-      * Built with Generics allowing multiple configurations and instances concurrently.
+* Advanced Encryption Standard based encryption
+* Built with Generics allowing multiple configurations and instances concurrently.
 
 <a href="https://dev.azure.com/marksamdickinson/DickinsonBros/_build?definitionScope=%5CDickinsonBros.Encryption.AES">Builds</a>
 
