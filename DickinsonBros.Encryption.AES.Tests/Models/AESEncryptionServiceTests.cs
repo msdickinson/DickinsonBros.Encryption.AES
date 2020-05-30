@@ -13,7 +13,7 @@ namespace DickinsonBros.Encryption.AES.Tests.Models
     public class AESEncryptionServiceTests : BaseTest
     {
         [TestMethod]
-        public void Encrypt_RunsWithStandardInput_RunsExpectedByteArray()
+        public void Encrypt_StringInput_ReturnsExpectedString()
         {
             RunDependencyInjectedTest
             (
@@ -28,8 +28,33 @@ namespace DickinsonBros.Encryption.AES.Tests.Models
 
                     //Act
                     var observed = uutConcrete.Encrypt(plainText);
-                    var observedBase64 = Convert.ToBase64String(observed);
 
+                    //Assert
+                    Assert.AreEqual(expectedBase64, observed);
+
+                },
+                serviceCollection => ConfigureServices(serviceCollection)
+            );
+        }
+
+        [TestMethod]
+        public void EncryptToByteArray_StringInput_ReturnsExpectedByteArray()
+        {
+            RunDependencyInjectedTest
+            (
+                (serviceProvider) =>
+                {
+                    //Setup
+                    var plainText = "abc123!";
+                    var expectedBase64 = "Kn9G12Ye7UP5ar+Bm2D61A==";
+
+                    var uut = serviceProvider.GetRequiredService<IAESEncryptionService<RunnerAESEncryptionServiceOptions>>();
+                    var uutConcrete = (AESEncryptionService<RunnerAESEncryptionServiceOptions>)uut;
+
+                    //Act
+                    var observed = uutConcrete.EncryptToByteArray(plainText);
+                    var observedBase64 = Convert.ToBase64String(observed);
+              
                     //Assert
                     Assert.AreEqual(expectedBase64, observedBase64);
 
@@ -56,6 +81,32 @@ namespace DickinsonBros.Encryption.AES.Tests.Models
 
                     //Act
                     var observed = uutConcrete.Decrypt(encodedByteArray);
+
+                    //Assert
+                    Assert.AreEqual(expectedText, observed);
+
+                },
+                serviceCollection => ConfigureServices(serviceCollection)
+            );
+        }
+
+        [TestMethod]
+        public void Decrypt_WithVaildEncodedString_ReturnsDecryptedString()
+        {
+            RunDependencyInjectedTest
+            (
+                (serviceProvider) =>
+                {
+                    //Setup
+                    var encoded = "Kn9G12Ye7UP5ar+Bm2D61A==";
+
+                    var expectedText = "abc123!";
+
+                    var uut = serviceProvider.GetRequiredService<IAESEncryptionService<RunnerAESEncryptionServiceOptions>>();
+                    var uutConcrete = (AESEncryptionService<RunnerAESEncryptionServiceOptions>)uut;
+
+                    //Act
+                    var observed = uutConcrete.Decrypt(encoded);
 
                     //Assert
                     Assert.AreEqual(expectedText, observed);

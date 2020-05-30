@@ -18,7 +18,8 @@ namespace DickinsonBros.Encryption.AES
             _initializationVector = Convert.FromBase64String(aesEncryptionOptions.Value.InitializationVector);
         }
 
-        public byte[] Encrypt(string plainText)
+
+        public byte[] EncryptToByteArray(string unencrypted)
         {
             byte[] encrypted;
 
@@ -35,7 +36,7 @@ namespace DickinsonBros.Encryption.AES
                     {
                         using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
                         {
-                            swEncrypt.Write(plainText);
+                            swEncrypt.Write(unencrypted);
                         }
                         encrypted = msEncrypt.ToArray();
                     }
@@ -45,7 +46,11 @@ namespace DickinsonBros.Encryption.AES
             return encrypted;
         }
 
-        public string Decrypt(byte[] cipherText)
+        public string Decrypt(string encrypted)
+        {
+            return Decrypt(Convert.FromBase64String(encrypted));
+        }
+        public string Decrypt(byte[] encrypted)
         {
             string plaintext = null;
 
@@ -56,7 +61,7 @@ namespace DickinsonBros.Encryption.AES
 
                 ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
 
-                using (MemoryStream msDecrypt = new MemoryStream(cipherText))
+                using (MemoryStream msDecrypt = new MemoryStream(encrypted))
                 {
                     using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
                     {
@@ -71,5 +76,9 @@ namespace DickinsonBros.Encryption.AES
             return plaintext;
         }
 
+        public string Encrypt(string unencrypted)
+        {
+           return Convert.ToBase64String(EncryptToByteArray(unencrypted));
+        }
     }
 }
