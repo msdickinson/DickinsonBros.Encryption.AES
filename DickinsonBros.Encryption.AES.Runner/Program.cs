@@ -9,7 +9,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -34,15 +33,22 @@ namespace DickinsonBros.Encryption.AES.Runner
                 {
                     var aesEncryptionService = provider.GetRequiredService<IAESEncryptionService<RunnerAESEncryptionServiceOptions>>();
 
-                    var encryptedByteArray = aesEncryptionService.Encrypt("Sample123!");
-                    var encryptedString = Convert.ToBase64String(encryptedByteArray);
-                    var decryptedString = aesEncryptionService.Decrypt(encryptedByteArray);
+                    var encryptedString = aesEncryptionService.Encrypt("Sample123!");
+                    var decryptedString = aesEncryptionService.Decrypt(encryptedString);
+                    var encryptedByteArray = aesEncryptionService.EncryptToByteArray("Sample123!");
+                    var decryptedStringFromByteArray = aesEncryptionService.Decrypt(encryptedByteArray);
                     Console.WriteLine(
                 $@"Encrypted String
 { encryptedString }
 
-Decrypted String
+Decrypted string
 { decryptedString }
+
+Encrypted To ByteArray
+{  Encoding.UTF8.GetString(encryptedByteArray) }
+
+Decrypted String
+{ decryptedStringFromByteArray }
 ");
                 }
                 applicationLifetime.StopApplication();
