@@ -15,20 +15,33 @@ Features
 <h2>Example Usage</h2>
 
 ```C#
-var encryptedByteArray = aesEncryptionService.Encrypt("Sample123!");
-var encryptedString = Convert.ToBase64String(encryptedByteArray);
-var decryptedString = aesEncryptionService.Decrypt(encryptedByteArray);
+var encryptedString = aesEncryptionService.Encrypt("Sample123!");
+var decryptedString = aesEncryptionService.Decrypt(encryptedString);
+var encryptedByteArray = aesEncryptionService.EncryptToByteArray("Sample123!");
+var decryptedStringFromByteArray = aesEncryptionService.Decrypt(encryptedByteArray);
 Console.WriteLine(
 $@"Encrypted String
 { encryptedString }
 
-Decrypted String
+Decrypted string
 { decryptedString }
+
+Encrypted To ByteArray
+{  Encoding.UTF8.GetString(encryptedByteArray) }
+
+Decrypted String
+{ decryptedStringFromByteArray }
 ");
 ```
     
     Encrypted String
     7BFFAPx56rGtAtB/LVBvdw==
+
+    Decrypted string
+    Sample123!
+
+    Encrypted To ByteArray
+    ?E ?y??-Pow
 
     Decrypted String
     Sample123!
