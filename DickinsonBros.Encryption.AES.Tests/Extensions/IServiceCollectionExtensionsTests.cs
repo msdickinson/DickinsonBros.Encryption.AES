@@ -1,6 +1,9 @@
 ﻿using DickinsonBros.Encryption.AES.Abstractions;
+using DickinsonBros.Encryption.AES.Configurators;
 using DickinsonBros.Encryption.AES.Extensions;
+using DickinsonBros.Encryption.AES.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 
@@ -9,6 +12,8 @@ namespace DickinsonBros.Encryption.AES.Tests.Extensions
     [TestClass]
     public class IServiceCollectionExtensionsTests
     {
+        public class Sample { };
+
         [TestMethod]
         public void AddAESEncryptionService_Should_Succeed()
         {
@@ -16,13 +21,17 @@ namespace DickinsonBros.Encryption.AES.Tests.Extensions
             var serviceCollection = new ServiceCollection();
 
             // Act
-            serviceCollection.AddAESEncryptionService<object>();
+            serviceCollection.AddAESEncryptionService<Sample>();
 
             // Assert
 
-            Assert.IsTrue(serviceCollection.Any(serviceDefinition => serviceDefinition.ServiceType == typeof(IAESEncryptionService<>) &&
-                                           serviceDefinition.ImplementationType == typeof(AESEncryptionService<>) &&
+            Assert.IsTrue(serviceCollection.Any(serviceDefinition => serviceDefinition.ServiceType == typeof(IAESEncryptionService<Sample>) &&
+                                           serviceDefinition.ImplementationType == typeof(AESEncryptionService<Sample>) &&
                                            serviceDefinition.Lifetime == ServiceLifetime.Singleton));
+
+            Assert.IsTrue(serviceCollection.Any(serviceDefinition => serviceDefinition.ServiceType == typeof(IConfigureOptions<AESEncryptionServiceOptions<Sample>>) &&
+                   serviceDefinition.ImplementationType == typeof(AESEncryptionServiceOptionsConfigurator<Sample>) &&
+                   serviceDefinition.Lifetime == ServiceLifetime.Singleton));
         }
     }
 }
