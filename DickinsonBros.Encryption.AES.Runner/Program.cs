@@ -3,9 +3,9 @@ using DickinsonBros.Encryption.AES.Extensions;
 using DickinsonBros.Encryption.AES.Models;
 using DickinsonBros.Encryption.AES.Runner.Models;
 using DickinsonBros.Encryption.AES.Runner.Services;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
@@ -25,14 +25,13 @@ namespace DickinsonBros.Encryption.AES.Runner
         {
             try
             {
-                using var applicationLifetime = new ApplicationLifetime();
                 var services = InitializeDependencyInjection();
-                ConfigureServices(services, applicationLifetime);
+                ConfigureServices(services);
 
                 using (var provider = services.BuildServiceProvider())
                 {
                     var aesEncryptionService = provider.GetRequiredService<IAESEncryptionService<RunnerAESEncryptionServiceOptions>>();
-
+                    var hostApplicationLifetime = provider.GetService<IHostApplicationLifetime>();
                     var encryptedString = aesEncryptionService.Encrypt("Sample123!");
                     var decryptedString = aesEncryptionService.Decrypt(encryptedString);
                     var encryptedByteArray = aesEncryptionService.EncryptToByteArray("Sample123!");
@@ -50,8 +49,9 @@ Encrypted To ByteArray
 Decrypted String
 { decryptedStringFromByteArray }
 ");
+
+                    hostApplicationLifetime.StopApplication();
                 }
-                applicationLifetime.StopApplication();
                 await Task.CompletedTask.ConfigureAwait(false);
             }
             catch (Exception e)
@@ -65,7 +65,7 @@ Decrypted String
             }
         }
 
-        private void ConfigureServices(IServiceCollection services, ApplicationLifetime applicationLifetime)
+        private void ConfigureServices(IServiceCollection services)
         {
             services.AddOptions();
             services.AddLogging(config =>
@@ -77,9 +77,8 @@ Decrypted String
                     config.AddConsole();
                 }
             });
-            services.AddSingleton<IApplicationLifetime>(applicationLifetime);
+            services.AddSingleton<IHostApplicationLifetime, HostApplicationLifetime>();
             services.AddAESEncryptionService<RunnerAESEncryptionServiceOptions>();
-            services.Configure<AESEncryptionServiceOptions<RunnerAESEncryptionServiceOptions>>(_configuration.GetSection(nameof(RunnerAESEncryptionServiceOptions)));
         }
         IServiceCollection InitializeDependencyInjection()
         {
