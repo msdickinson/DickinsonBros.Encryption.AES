@@ -5,7 +5,8 @@ using Microsoft.Extensions.Options;
 
 namespace DickinsonBros.Encryption.AES.Configurators
 {
-    public class AESEncryptionServiceOptionsConfigurator<T> : IConfigureOptions<AESEncryptionServiceOptions<T>>
+    public class AESEncryptionServiceOptionsConfigurator<T> : IConfigureOptions<AESEncryptionServiceOptions<T>> 
+    where T : AESEncryptionServiceOptionsType
     {
         private readonly IServiceScopeFactory _serviceScopeFactory;
         public AESEncryptionServiceOptionsConfigurator(IServiceScopeFactory serviceScopeFactory)

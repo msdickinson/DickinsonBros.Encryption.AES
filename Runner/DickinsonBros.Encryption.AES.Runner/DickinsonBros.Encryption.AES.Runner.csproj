@@ -19,10 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DickinsonBros.Encryption.AES\DickinsonBros.Encryption.AES.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -30,6 +26,10 @@
       <DependentUpon>appsettings.json</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Source\DickinsonBros.Encryption.AES\DickinsonBros.Encryption.AES.csproj" />
   </ItemGroup>
 
   <ProjectExtensions>

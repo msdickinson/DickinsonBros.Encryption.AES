@@ -12,7 +12,7 @@ namespace DickinsonBros.Encryption.AES.Tests.Configurators
     [TestClass]
     public class AESEncryptionServiceOptionsConfiguratorTests : BaseTest
     {
-        public class TestClass
+        public class TestClass : AESEncryptionServiceOptionsType
         {
 
         }

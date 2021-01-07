@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 namespace DickinsonBros.Encryption.AES
 {
     public class AESEncryptionService<T> :  IAESEncryptionService<T>
+    where T : AESEncryptionServiceOptionsType
     {
         internal readonly byte[] _key;
         internal readonly byte[] _initializationVector;

@@ -12,7 +12,7 @@ namespace DickinsonBros.Encryption.AES.Tests.Extensions
     [TestClass]
     public class IServiceCollectionExtensionsTests
     {
-        public class Sample { };
+        public class Sample : AESEncryptionServiceOptionsType { };
 
         [TestMethod]
         public void AddAESEncryptionService_Should_Succeed()

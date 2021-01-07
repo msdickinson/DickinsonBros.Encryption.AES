@@ -9,7 +9,8 @@ namespace DickinsonBros.Encryption.AES.Extensions
 {
     public static class IServiceCollectionExtensions
     {
-        public static IServiceCollection AddAESEncryptionService<T>(this IServiceCollection serviceCollection)
+        public static IServiceCollection AddAESEncryptionService<T>(this IServiceCollection serviceCollection) 
+        where T : AESEncryptionServiceOptionsType
         {
             serviceCollection.TryAddSingleton(typeof(IAESEncryptionService<T>), typeof(AESEncryptionService<T>));
             serviceCollection.TryAddSingleton(typeof(IConfigureOptions<AESEncryptionServiceOptions<T>>), typeof(AESEncryptionServiceOptionsConfigurator<T>));

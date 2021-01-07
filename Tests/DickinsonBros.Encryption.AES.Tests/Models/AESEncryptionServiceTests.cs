@@ -134,7 +134,7 @@ namespace DickinsonBros.Encryption.AES.Tests.Models
         }
     }
 
-    public class RunnerAESEncryptionServiceOptions : AESEncryptionServiceOptions
+    public class RunnerAESEncryptionServiceOptions : AESEncryptionServiceOptionsType
     {
     }
 }
