@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DickinsonBros.Encryption.AES\DickinsonBros.Encryption.AES.csproj" />
+    <ProjectReference Include="..\..\Source\DickinsonBros.Encryption.AES\DickinsonBros.Encryption.AES.csproj" />
   </ItemGroup>
 
 </Project>
